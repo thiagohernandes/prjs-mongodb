@@ -1,13 +1,12 @@
 package com.br.mongo.connect;
 
-import static com.mongodb.client.model.Filters.lt;
+import java.util.Arrays;
 
 import com.br.mongo.domain.Pessoa;
 import com.br.mongo.util.UtilDB;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 
-public class C02MongoDBFind {
+public class C01MongoDBInsert {
 
 	public static void main(String...$$) {
 		try {
@@ -15,14 +14,10 @@ public class C02MongoDBFind {
 			@SuppressWarnings("unchecked")
 			MongoCollection<Pessoa> collection =
 					(MongoCollection<Pessoa>) util.getCollection(util.connectDatabase("pojo"), "pessoas", Pessoa.class);
-
-	        try (MongoCursor<Pessoa> cur = collection.find(lt("idade", 30)).iterator()) {
-	            while (cur.hasNext()) {
-	            	Pessoa doc = cur.next();
-	                System.out.println(doc.getNome());
-	            }
-	        }
-	        
+	        Pessoa pessoa1 = new Pessoa("Beltrano", 33);
+	        Pessoa pessoa2 = new Pessoa("Ciclana", 22);
+	        Pessoa pessoa3 = new Pessoa("Gilbrano", 39);
+	        collection.insertMany(Arrays.asList(pessoa1,pessoa2,pessoa3));
 	        System.out.print("Tudo ok!");
 		} catch(Exception e) {
 			System.err.print("Erro -> " + e.getMessage());
